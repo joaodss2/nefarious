@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: "media-server"
   annotations:
-    com.centurylinklabs.watchtower.enable: "true"
     kompose.cmd: kompose convert
     kompose.version: 1.34.0 (cbf2835db)
   labels:
@@ -18,7 +18,6 @@ spec:
   template:
     metadata:
       annotations:
-        com.centurylinklabs.watchtower.enable: "true"
         kompose.cmd: kompose convert
         kompose.version: 1.34.0 (cbf2835db)
       labels:
@@ -38,15 +37,20 @@ spec:
             - containerPort: 51413
               protocol: TCP
           volumeMounts:
-            - mountPath: /config/settings.json
-              name: transmission-cm1
-              readOnly: true
-              subPath: settings.json
+          - mountPath: /downloads
+            name: download-volume
+          - mountPath: /config/settings.json
+            subPath: settings.json
+            name: config-volume
+            readOnly: true
       restartPolicy: Always
       volumes:
-        - configMap:
-            items:
-              - key: transmission-settings.json
-                path: settings.json
-            name: transmission-cm1
-          name: transmission-cm1
+      - name: download-volume
+        persistentVolumeClaim:
+          claimName: transmission-pvc
+      - name: config-volume
+        configMap:
+          name: transmission-config
+          items:
+          - key: transmission-settings.json
+            path: settings.json

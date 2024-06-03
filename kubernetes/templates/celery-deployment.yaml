@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: "media-server"
   annotations:
-    com.centurylinklabs.watchtower.enable: "true"
     kompose.cmd: kompose convert
     kompose.version: 1.34.0 (cbf2835db)
   labels:
@@ -18,7 +18,6 @@ spec:
   template:
     metadata:
       annotations:
-        com.centurylinklabs.watchtower.enable: "true"
         kompose.cmd: kompose convert
         kompose.version: 1.34.0 (cbf2835db)
       labels:
@@ -37,7 +36,9 @@ spec:
             - name: INTERNAL_DOWNLOAD_PATH
               value: /downloads
             - name: REDIS_HOST
-              value: redis
+              value: 10.42.0.174
+            - name: NUM_CELERY_WORKERS
+              value: "2"  
           image: lardbit/nefarious
           name: celery
           volumeMounts:

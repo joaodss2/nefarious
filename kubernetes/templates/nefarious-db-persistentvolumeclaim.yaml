@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  namespace: "media-server"
   labels:
     io.kompose.service: nefarious-db
   name: nefarious-db
