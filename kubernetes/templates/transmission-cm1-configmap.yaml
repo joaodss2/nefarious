@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  transmission-settings.json: |
+    {
+        "download-dir": "/downloads/",
+        "incomplete-dir": "/downloads/.incomplete",
+        "incomplete-dir-enabled": "true",
+        "rpc-whitelist": "*",
+        "rpc-host-whitelist-enabled": "false"
+    }
+kind: ConfigMap
+metadata:
+  annotations:
+    use-subpath: "true"
+  labels:
+    io.kompose.service: transmission
+  name: transmission-cm1
