@@ -1,5 +1,0 @@
-kubernetesClusterDomain: cluster.local
-  
-persistentVolume:
-  storage: 15Gi
-  hostPath: /tmp    
